@@ -1204,6 +1204,342 @@ Run the integration tests from inside `todo_project`:
 
 The tests prove that a Todo created through the browser is visible through the API, that API update and delete operations persist correctly, and that invalid or missing resources return useful errors.
 
+## 30-Minute Video Course Plan
+
+This plan turns the guide into twelve focused videos. Each video is exactly 30 minutes, for a total course length of 6 hours. Python basics are intentionally excluded. Every video should contain a short explanation, a live coding section, a visible diagram, and a small checkpoint.
+
+### Standard 30-Minute Format
+
+Use the same rhythm in every recording:
+
+| Time | Segment | What to do |
+| --- | --- | --- |
+| 0:00-3:00 | Context | State the problem and show the finished result. |
+| 3:00-8:00 | Concept | Explain the Flask idea and vocabulary. |
+| 8:00-20:00 | Live coding | Build one focused feature in the Todo project. |
+| 20:00-25:00 | Diagram and walkthrough | Trace one request from client to response. |
+| 25:00-28:00 | Test and troubleshoot | Demonstrate one success case and one failure case. |
+| 28:00-30:00 | Recap | Summarize three points and give a short practice task. |
+
+### Video 1: What Flask Is and How a Request Works
+
+**Goal:** Explain Flask's purpose, the microframework idea, the request lifecycle, and when Flask is a good choice.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Show the completed Todo application and define the problem Flask solves.
+- 3:00-8:00: Explain framework, web server, WSGI, route, view, request, and response.
+- 8:00-15:00: Create the smallest Flask app with one `/` route.
+- 15:00-20:00: Run the app and inspect a browser request.
+- 20:00-25:00: Walk through the diagram below.
+- 25:00-28:00: Test an existing route and a missing route.
+- 28:00-30:00: Recap the request lifecycle and assign a `/health` route.
+
+```mermaid
+sequenceDiagram
+    participant B as Browser
+    participant S as Flask Server
+    participant R as Router
+    participant V as View Function
+    B->>S: GET /
+    S->>R: Match method and URL
+    R->>V: Call home()
+    V-->>R: Return response data
+    R-->>S: Build HTTP response
+    S-->>B: 200 OK + body
+```
+
+### Video 2: Project Setup, Application Factory, and Configuration
+
+**Goal:** Create a maintainable Flask project and explain why `create_app` is better than putting all setup in one global object.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Compare a single-file app with the Todo project structure.
+- 3:00-8:00: Explain packages, the instance folder, configuration, and environment variables.
+- 8:00-16:00: Build `create_app`, load configuration, and initialize extensions.
+- 16:00-20:00: Register blueprints from the factory.
+- 20:00-25:00: Show development versus test configuration.
+- 25:00-28:00: Create two app instances with different settings.
+- 28:00-30:00: Recap and assign a test configuration change.
+
+```mermaid
+flowchart TD
+    A[flask --app app:create_app run] --> B[create_app]
+    B --> C[Load environment configuration]
+    C --> D[Initialize extensions]
+    D --> E[Register web blueprint]
+    D --> F[Register API blueprint]
+    E --> G[Ready Flask application]
+    F --> G
+```
+
+### Video 3: Routes, URL Variables, HTTP Methods, and Responses
+
+**Goal:** Build predictable URLs and use HTTP methods and status codes correctly.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Show the Todo route table.
+- 3:00-8:00: Explain route decorators, endpoint names, and `url_for`.
+- 8:00-15:00: Add static routes, typed URL variables, redirects, and 404 behavior.
+- 15:00-20:00: Compare GET, POST, PATCH, and DELETE with Todo operations.
+- 20:00-25:00: Return HTML, JSON, status codes, and headers.
+- 25:00-28:00: Test valid and invalid route requests.
+- 28:00-30:00: Recap and assign an `/api/health` endpoint.
+
+```mermaid
+flowchart LR
+    A[HTTP request] --> B{Method + URL}
+    B -->|GET /| C[Render page]
+    B -->|POST /todos| D[Create record]
+    B -->|PATCH /api/todos/id| E[Update record]
+    B -->|DELETE /api/todos/id| F[Delete record]
+    B -->|No match| G[404 response]
+```
+
+### Video 4: Request Data, Forms, Validation, and Redirects
+
+**Goal:** Accept user input safely and implement the browser Todo workflow.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Submit the Todo form with valid and invalid values.
+- 3:00-8:00: Explain `request.args`, `request.form`, and `request.get_json`.
+- 8:00-15:00: Add create and edit forms with required fields and length checks.
+- 15:00-20:00: Explain boundary validation and normalized input.
+- 20:00-25:00: Demonstrate flash messages and Post/Redirect/Get.
+- 25:00-28:00: Test empty, oversized, and valid titles.
+- 28:00-30:00: Recap and assign a search query parameter.
+
+```mermaid
+flowchart TD
+    A[Browser submits form] --> B[POST /todos]
+    B --> C[Read request.form]
+    C --> D{Title valid?}
+    D -->|No| E[Flash error]
+    E --> F[Redirect to form]
+    D -->|Yes| G[Create Todo]
+    G --> H[Commit database]
+    H --> I[Redirect to GET /]
+    I --> J[Render updated list]
+```
+
+### Video 5: Jinja Templates, Layouts, and Static Files
+
+**Goal:** Build reusable HTML pages with safe dynamic output and static assets.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Show the rendered Todo page and identify its parts.
+- 3:00-8:00: Explain Jinja expressions, statements, loops, conditions, and escaping.
+- 8:00-15:00: Build `base.html`, `index.html`, and `edit.html` with inheritance.
+- 15:00-20:00: Pass Todo objects from a view to a template.
+- 20:00-25:00: Add CSS through `url_for('static', ...)` and make the page responsive.
+- 25:00-28:00: Demonstrate an empty list and a completed item.
+- 28:00-30:00: Recap and assign a reusable navigation block.
+
+```mermaid
+flowchart TD
+    A[View function] -->|todos=...| B[Jinja context]
+    B --> C[base.html]
+    C --> D[index.html extends base]
+    D --> E[Loop over todos]
+    E --> F[Escaped HTML response]
+    D --> G[Static CSS via url_for]
+```
+
+### Video 6: Databases, Models, Queries, and Transactions
+
+**Goal:** Persist Todo data correctly using Flask-SQLAlchemy and understand the database session.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Restart the app and show that persisted tasks remain.
+- 3:00-8:00: Explain tables, rows, columns, primary keys, and an ORM.
+- 8:00-15:00: Define the `Todo` model and configure SQLite.
+- 15:00-20:00: Insert, select, update, and delete records.
+- 20:00-25:00: Explain session, commit, rollback, and why migrations matter.
+- 25:00-28:00: Trigger a validation failure and verify no bad row is saved.
+- 28:00-30:00: Recap and assign a priority field exercise.
+
+```mermaid
+sequenceDiagram
+    participant V as View
+    participant O as Todo ORM object
+    participant S as SQLAlchemy session
+    participant D as SQLite database
+    V->>O: Create or modify Todo
+    V->>S: add(todo)
+    V->>S: commit()
+    S->>D: INSERT or UPDATE
+    D-->>S: Persisted row
+    S-->>V: Query result
+```
+
+### Video 7: Blueprints, Application Context, and Request Context
+
+**Goal:** Separate features and understand Flask's context-local objects.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Show why one large routes file becomes difficult to maintain.
+- 3:00-8:00: Explain blueprint ownership, URL prefixes, and endpoint names.
+- 8:00-15:00: Create and register separate web and API blueprints.
+- 15:00-20:00: Explain `request`, `session`, `g`, and `current_app`.
+- 20:00-25:00: Demonstrate an application context in a shell or test.
+- 25:00-28:00: Diagnose an “outside application context” error.
+- 28:00-30:00: Recap and assign a third blueprint.
+
+```mermaid
+flowchart TD
+    A[create_app] --> B[Register web blueprint]
+    A --> C[Register API blueprint]
+    B --> D[Browser endpoints]
+    C --> E[JSON endpoints]
+    F[Request context] --> G[request, session, g]
+    H[Application context] --> I[current_app, extensions]
+```
+
+### Video 8: JSON APIs and REST-Style Design
+
+**Goal:** Build a complete JSON API over the same Todo model.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Call the Todo API from PowerShell or an API client.
+- 3:00-8:00: Explain resources, representations, content types, and status codes.
+- 8:00-15:00: Implement list and create endpoints.
+- 15:00-20:00: Implement patch and delete endpoints.
+- 20:00-25:00: Add JSON validation, consistent errors, and serialization.
+- 25:00-28:00: Demonstrate 200, 201, 204, 400, and 404 responses.
+- 28:00-30:00: Recap and assign pagination design.
+
+```mermaid
+flowchart LR
+    A[JSON client] --> B[POST /api/todos]
+    B --> C[Parse JSON]
+    C --> D[Validate fields]
+    D --> E[Todo model]
+    E --> F[(Database)]
+    F --> G[Todo.to_dict()]
+    G --> H[201 JSON response]
+```
+
+### Video 9: Error Handling, Logging, and Security Boundaries
+
+**Goal:** Make failures understandable to users and useful to developers without leaking private details.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Trigger an invalid input, missing Todo, and unexpected error.
+- 3:00-8:00: Explain 4xx versus 5xx errors and custom error handlers.
+- 8:00-15:00: Add browser and API-specific 404 responses.
+- 15:00-20:00: Add structured logging and identify sensitive data to exclude.
+- 20:00-25:00: Explain secret keys, HTTPS, CSRF, SQL injection, and output escaping.
+- 25:00-28:00: Review the Todo project's security checklist.
+- 28:00-30:00: Recap and assign a safe error response.
+
+```mermaid
+flowchart TD
+    A[Failure occurs] --> B{Expected client error?}
+    B -->|Yes| C[400 / 401 / 403 / 404 JSON or HTML]
+    B -->|No| D[Log details privately]
+    D --> E[Return generic 500 response]
+    C --> F[Client can correct request]
+```
+
+### Video 10: Authentication, Sessions, and Authorization
+
+**Goal:** Explain identity and permissions and prepare the Todo project for user-owned tasks.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Show why a shared Todo list needs user identity.
+- 3:00-8:00: Distinguish authentication from authorization.
+- 8:00-15:00: Explain password hashing, login, logout, and session cookies.
+- 15:00-20:00: Protect a route and load the current user.
+- 20:00-25:00: Add ownership checks before reading or changing a Todo.
+- 25:00-28:00: Discuss CSRF and secure cookie settings.
+- 28:00-30:00: Recap and assign a protected `/profile` route.
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Flask
+    participant DB as User database
+    U->>F: POST /login
+    F->>DB: Find user
+    DB-->>F: Password hash + permissions
+    F->>F: Verify password
+    F-->>U: Secure session cookie
+    U->>F: POST /todos/1/delete
+    F->>F: Check identity and ownership
+    F-->>U: Allow or 403 Forbidden
+```
+
+### Video 11: Testing, Debugging, and Integration
+
+**Goal:** Prove the application works across routes, validation, persistence, and responses.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Run the existing Todo test suite.
+- 3:00-8:00: Explain app fixtures, test clients, and temporary databases.
+- 8:00-15:00: Write a browser-to-database-to-API integration test.
+- 15:00-20:00: Add validation and missing-resource tests.
+- 20:00-25:00: Debug a failing test and read the response body.
+- 25:00-28:00: Discuss unit tests versus integration tests.
+- 28:00-30:00: Recap and assign a test for toggling completion.
+
+```mermaid
+flowchart LR
+    A[pytest test] --> B[Test Flask client]
+    B --> C[Route and validation]
+    C --> D[SQLAlchemy model]
+    D --> E[(Temporary SQLite DB)]
+    E --> F[Response assertion]
+    F --> G[Pass or useful failure]
+```
+
+### Video 12: Production Deployment and Final Project Review
+
+**Goal:** Understand what changes when a Flask application leaves local development.
+
+**Cover in 30 minutes:**
+
+- 0:00-3:00: Review the completed Todo application.
+- 3:00-8:00: Explain development server versus production WSGI server.
+- 8:00-15:00: Review environment configuration, database URLs, migrations, and secrets.
+- 15:00-20:00: Explain HTTPS, reverse proxy, static files, health checks, and logs.
+- 20:00-25:00: Walk through a deployment checklist and rollback plan.
+- 25:00-28:00: Run final API and browser smoke tests.
+- 28:00-30:00: Summarize the entire Flask request-to-database flow.
+
+```mermaid
+flowchart TD
+    A[Browser or API client] --> B[HTTPS]
+    B --> C[Reverse proxy]
+    C --> D[Production WSGI server]
+    D --> E[Flask application]
+    E --> F[(Managed database)]
+    E --> G[Logs and monitoring]
+    E --> H[Static file storage or CDN]
+```
+
+### Presentation Guidance
+
+For each video, use this slide order:
+
+1. **Problem:** What would be difficult without this Flask feature?
+2. **Concept:** Define no more than five new terms.
+3. **Diagram:** Show the request or data flow before coding.
+4. **Implementation:** Add one feature to the Todo project.
+5. **Failure case:** Show what happens with invalid input or a missing resource.
+6. **Recap:** End with three key points and one practice task.
+
+Keep diagrams visible while coding. Highlight the current step with a cursor, annotation, or animation, and return to the same diagram after the code runs. This gives learners a stable mental model instead of twelve unrelated code demonstrations.
+
 ## Recommended Learning Projects
 
 Complete these in order:
