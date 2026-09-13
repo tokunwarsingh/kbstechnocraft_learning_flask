@@ -1141,28 +1141,137 @@ todo_project/
 
 ### Run the Todo Project
 
-From the repository root:
+#### Prerequisites
+
+Install these before running the project:
+
+- **Python 3.10 or newer:** The project uses modern Flask and SQLAlchemy syntax.
+- **pip:** Python's package installer. It is normally included with Python.
+- **A terminal:** Windows PowerShell, macOS Terminal, or a Linux shell.
+- **A browser:** Required for the HTML interface.
+- **Git:** Optional, only needed if you cloned this repository with Git.
+
+Check that Python and pip are available:
+
+```powershell
+python --version
+python -m pip --version
+```
+
+On some macOS and Linux systems, use `python3` instead:
+
+```bash
+python3 --version
+python3 -m pip --version
+```
+
+If Python is not installed, install it from [python.org](https://www.python.org/downloads/) and enable the option to add Python to `PATH` on Windows. Close and reopen the terminal after installation, then run the version checks again.
+
+#### Windows PowerShell Installation
+
+Run these commands from the repository root:
+
+```powershell
+cd todo_project
+python -m venv .venv
+\.venv\Scripts\python.exe -m pip install --upgrade pip
+\.venv\Scripts\python.exe -m pip install -r requirements.txt
+```
+
+The commands use the virtual environment's Python directly, so PowerShell activation policy does not matter. To activate the environment for the current terminal instead, run:
+
+```powershell
+\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+```
+
+If PowerShell blocks `Activate.ps1`, continue using the direct `\.venv\Scripts\python.exe` commands above. Do not change the machine-wide execution policy just to run this project.
+
+Start the application:
+
+```powershell
+\.venv\Scripts\python.exe run.py
+```
+
+#### macOS and Linux Installation
+
+Run these commands from the repository root:
 
 ```bash
 cd todo_project
-python -m venv .venv
-```
-
-On Windows PowerShell:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe run.py
-```
-
-On macOS or Linux:
-
-```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install --upgrade pip
 .venv/bin/python -m pip install -r requirements.txt
 .venv/bin/python run.py
 ```
 
-Open `http://127.0.0.1:5000/`. The SQLite database is created in `todo_project/instance/todo.sqlite3` the first time the application starts.
+The installation command can be ordered either way, but upgrading pip first is recommended:
+
+```bash
+.venv/bin/python -m pip install --upgrade pip
+.venv/bin/python -m pip install -r requirements.txt
+```
+
+To activate the environment for the current terminal:
+
+```bash
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python run.py
+```
+
+#### What Gets Installed
+
+The `todo_project/requirements.txt` file installs:
+
+- `Flask`: routing, requests, responses, templates, and the application server.
+- `Flask-SQLAlchemy`: Flask integration for SQLAlchemy database models and sessions.
+- `pytest`: automated tests for the Todo application.
+
+The installation also downloads their supporting packages, including Jinja, Werkzeug, and SQLAlchemy. Keep the dependencies inside `.venv`; do not install them globally.
+
+#### Verify the Installation
+
+Before opening the browser, confirm that Flask and Flask-SQLAlchemy import successfully:
+
+Windows PowerShell:
+
+```powershell
+\.venv\Scripts\python.exe -c "import flask, flask_sqlalchemy; print('Flask installation is ready')"
+```
+
+macOS or Linux:
+
+```bash
+.venv/bin/python -c "import flask, flask_sqlalchemy; print('Flask installation is ready')"
+```
+
+Run the automated tests:
+
+Windows PowerShell:
+
+```powershell
+\.venv\Scripts\python.exe -m pytest -q
+```
+
+macOS or Linux:
+
+```bash
+.venv/bin/python -m pytest -q
+```
+
+The expected result is four passing tests. The tests use a temporary SQLite database and do not modify your development database.
+
+#### Start and Stop the Application
+
+Start the application from inside `todo_project`:
+
+```text
+http://127.0.0.1:5000/
+```
+
+The SQLite database is created automatically at `todo_project/instance/todo.sqlite3` the first time the application starts. To stop the development server, press `Ctrl+C` in the terminal running it.
 
 ### Browser Features
 
