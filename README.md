@@ -76,6 +76,51 @@ Flask is a strong choice when explicit control and a small core are valuable. A 
 
 This transcript can be used as a full lesson script. It follows the same order as the code in this repository and assumes Python fundamentals are already known.
 
+### Flask Course Mind Map
+
+Use this overview as the first presentation slide. It shows how the course moves from the request lifecycle to a production-ready application.
+
+```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
+mindmap
+    root((Flask Application))
+        Request lifecycle
+            Client request
+            Route matching
+            View function
+            HTTP response
+        Application structure
+            Application factory
+            Configuration
+            Blueprints
+            Contexts
+        User interface
+            Jinja templates
+            Forms
+            Validation
+            Static files
+        Data layer
+            SQLAlchemy model
+            Queries
+            Transactions
+            Migrations
+        API layer
+            JSON resources
+            Status codes
+            Serialization
+            Error responses
+        Quality and security
+            Testing
+            Logging
+            Authentication
+            Authorization
+        Production
+            WSGI server
+            HTTPS
+            Database
+            Monitoring
+```
+
 ### Chapter 1: The Goal
 
 **Instructor:** Welcome. In this lesson we will build a complete Todo application with Flask. We will use server-rendered HTML for the browser, SQLite for persistence, and JSON endpoints for API clients. By the end, a user will be able to create, complete, edit, and delete tasks, and the same data will be available through an API.
@@ -1236,6 +1281,7 @@ Use the same rhythm in every recording:
 - 28:00-30:00: Recap the request lifecycle and assign a `/health` route.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 sequenceDiagram
     participant B as Browser
     participant S as Flask Server
@@ -1264,6 +1310,7 @@ sequenceDiagram
 - 28:00-30:00: Recap and assign a test configuration change.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[flask --app app:create_app run] --> B[create_app]
     B --> C[Load environment configuration]
@@ -1289,6 +1336,7 @@ flowchart TD
 - 28:00-30:00: Recap and assign an `/api/health` endpoint.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart LR
     A[HTTP request] --> B{Method + URL}
     B -->|GET /| C[Render page]
@@ -1313,6 +1361,7 @@ flowchart LR
 - 28:00-30:00: Recap and assign a search query parameter.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[Browser submits form] --> B[POST /todos]
     B --> C[Read request.form]
@@ -1340,6 +1389,7 @@ flowchart TD
 - 28:00-30:00: Recap and assign a reusable navigation block.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[View function] -->|todos=...| B[Jinja context]
     B --> C[base.html]
@@ -1364,6 +1414,7 @@ flowchart TD
 - 28:00-30:00: Recap and assign a priority field exercise.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 sequenceDiagram
     participant V as View
     participant O as Todo ORM object
@@ -1392,6 +1443,7 @@ sequenceDiagram
 - 28:00-30:00: Recap and assign a third blueprint.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[create_app] --> B[Register web blueprint]
     A --> C[Register API blueprint]
@@ -1416,6 +1468,7 @@ flowchart TD
 - 28:00-30:00: Recap and assign pagination design.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart LR
     A[JSON client] --> B[POST /api/todos]
     B --> C[Parse JSON]
@@ -1441,6 +1494,7 @@ flowchart LR
 - 28:00-30:00: Recap and assign a safe error response.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[Failure occurs] --> B{Expected client error?}
     B -->|Yes| C[400 / 401 / 403 / 404 JSON or HTML]
@@ -1464,6 +1518,7 @@ flowchart TD
 - 28:00-30:00: Recap and assign a protected `/profile` route.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 sequenceDiagram
     participant U as User
     participant F as Flask
@@ -1493,6 +1548,7 @@ sequenceDiagram
 - 28:00-30:00: Recap and assign a test for toggling completion.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart LR
     A[pytest test] --> B[Test Flask client]
     B --> C[Route and validation]
@@ -1517,6 +1573,7 @@ flowchart LR
 - 28:00-30:00: Summarize the entire Flask request-to-database flow.
 
 ```mermaid
+%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 flowchart TD
     A[Browser or API client] --> B[HTTPS]
     B --> C[Reverse proxy]
