@@ -1,0 +1,5 @@
+todo_project/.venv/
+todo_project/instance/
+__pycache__/
+*.py[cod]
+.pytest_cache/

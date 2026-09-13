@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <p class="eyebrow">404</p>
+    <h1>That todo is not here.</h1>
+    <a class="link-button" href="{{ url_for('web.index') }}">Return to todos</a>
+</section>
+{% endblock %}

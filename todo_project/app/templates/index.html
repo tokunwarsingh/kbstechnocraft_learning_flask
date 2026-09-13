@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Todo Desk{% endblock %}
+
+{% block content %}
+<section class="intro">
+    <p class="eyebrow">Flask + SQLite</p>
+    <h1>Keep the next thing visible.</h1>
+    <p>Create tasks in the browser or through the JSON API.</p>
+</section>
+
+<form class="new-todo" method="post" action="{{ url_for('web.create_todo') }}">
+    <label for="title">New task</label>
+    <div class="form-row">
+        <input id="title" name="title" maxlength="200" placeholder="What needs doing?" required>
+        <button type="submit">Add task</button>
+    </div>
+</form>
+
+<section class="todo-list" aria-label="Todo list">
+    {% for todo in todos %}
+    <article class="todo {{ 'completed' if todo.completed else '' }}">
+        <form method="post" action="{{ url_for('web.toggle_todo', todo_id=todo.id) }}">
+            <button class="toggle" type="submit" aria-label="Toggle {{ todo.title }}">
+                {{ 'Done' if todo.completed else 'Open' }}
+            </button>
+        </form>
+        <div class="todo-copy">
+            <strong>{{ todo.title }}</strong>
+            <small>Created {{ todo.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+        <a class="link-button" href="{{ url_for('web.edit_todo', todo_id=todo.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('web.delete_todo', todo_id=todo.id) }}">
+            <button class="danger" type="submit">Delete</button>
+        </form>
+    </article>
+    {% else %}
+    <p class="empty">No tasks yet. Add the first one above.</p>
+    {% endfor %}
+</section>
+
+<section class="api-note">
+    <h2>API endpoints</h2>
+    <code>GET /api/todos</code>
+    <code>POST /api/todos</code>
+    <code>PATCH /api/todos/&lt;id&gt;</code>
+    <code>DELETE /api/todos/&lt;id&gt;</code>
+</section>
+{% endblock %}
