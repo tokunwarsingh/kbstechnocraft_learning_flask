@@ -1390,7 +1390,6 @@ Use the same rhythm in every recording:
 - 28:00-30:00: Recap the request lifecycle and assign a `/health` route.
 
 ```mermaid
-%%{init: {"theme":"base","themeVariables":{"primaryColor":"#FDE68A","primaryTextColor":"#1F2937","primaryBorderColor":"#D97706","lineColor":"#64748B","secondaryColor":"#DBEAFE","tertiaryColor":"#DCFCE7","fontFamily":"Georgia"}}}%%
 sequenceDiagram
     participant B as Browser
     participant S as Flask Server
